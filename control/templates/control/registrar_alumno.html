@@ -1,0 +1,37 @@
+{% extends 'control/base.html' %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h3 class="text-center mb-4">Registrar Alumno</h3>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_nombre" class="form-label">Nombre</label>
+                        <input type="text" name="nombre" id="id_nombre" class="form-control" placeholder="Ej: Juan">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_apellido" class="form-label">Apellido</label>
+                        <input type="text" name="apellido" id="id_apellido" class="form-control" placeholder="Ej: Pérez">
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success rounded-pill">Guardar</button>
+                    </div>
+                </form>
+
+                <div class="mt-3 text-center">
+                    <a href="{% url 'lista_alumnos' %}" class="text-decoration-none"><i class="bi bi-arrow-left-circle"></i> Ver lista de alumnos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,28 @@
+{% extends 'control/base.html' %}
+{% block content %}
+<h2>Asistencia Registrada</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Alumno</th>
+            <th>Fecha</th>
+            <th>Presente</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in asistencias %}
+        <tr>
+            <td>{{ a.alumno }}</td>
+            <td>{{ a.fecha }}</td>
+            <td>
+                {% if a.presente %}
+                ✅
+                {% else %}
+                ❌
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'control/base.html' %}
+{% block content %}
+
+<!-- Título y botón -->
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+    <h2 class="text-center flex-fill">Resumen Anual de Asistencia - Año {{ anio }}</h2>
+
+    <div class="d-flex justify-content-end mb-2">
+        <a href="{% url 'descargar_asistencia_anual' anio %}" class="btn btn-outline-success">
+            <i class="bi bi-file-earmark-excel"></i> Descargar Excel Anual
+        </a>
+    </div>
+</div>
+
+<!-- Tabla -->
+<div class="table-responsive">
+    <table class="table table-bordered table-sm text-center shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th class="text-start">Alumno</th>
+                {% for m in resumen.0.detalle %}
+                    <th>{{ m.mes }}</th>
+                {% endfor %}
+                <th>Total</th>
+                <th>% Anual</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in resumen %}
+            <tr>
+                <td class="text-start fw-semibold">{{ r.alumno }}</td>
+                {% for d in r.detalle %}
+                    <td>{{ d.porcentaje }}%</td>
+                {% endfor %}
+                <td>{{ r.total_presente }}/{{ r.total_dias }}</td>
+                <td class="fw-bold">{{ r.porcentaje_anual }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

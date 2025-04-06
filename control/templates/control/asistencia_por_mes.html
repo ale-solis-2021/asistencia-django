@@ -1,0 +1,71 @@
+{% extends 'control/base.html' %}
+{% load custom_tags %}
+{% block content %}
+
+<!-- Navegación y descarga mejorada -->
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+    <!-- Botones Anterior / Siguiente -->
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-primary" href="{% url 'asistencia_por_mes' mes=mes_anterior anio=anio %}">
+            ⬅ Anterior
+        </a>
+        <a class="btn btn-outline-primary" href="{% url 'asistencia_por_mes' mes=mes_siguiente anio=anio %}">
+            Siguiente ➡
+        </a>
+    </div>
+
+    <!-- Título -->
+    <h4 class="mb-0 text-center flex-grow-1">Asistencia - {{ nombre_mes }} {{ anio }}</h4>
+
+    <!-- Botón Excel -->
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'descargar_asistencia_mensual' mes anio %}" class="btn btn-outline-success">
+            <i class="bi bi-file-earmark-excel"></i> Descargar Excel Mensual
+        </a>
+    </div>
+</div>
+
+<!-- Tabla de asistencia -->
+<div class="table-responsive">
+    <table class="table table-bordered table-sm align-middle text-center shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th class="text-start">Alumno</th>
+                {% for fecha in fechas_mes %}
+                    <th>{{ fecha.day }}</th>
+                {% endfor %}
+                <th>Total</th>
+                <th>%</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dato in datos_asistencia %}
+            <tr>
+                <td class="text-start fw-semibold">{{ dato.alumno }}</td>
+                {% for fecha in fechas_mes %}
+                    {% if fecha in dato.asistencias %}
+                        {% if dato.asistencias|get_item:fecha %}
+                            <td class="text-success fw-bold">P</td>
+                        {% else %}
+                            <td class="text-danger fw-bold">A</td>
+                        {% endif %}
+                    {% else %}
+                        <td class="text-muted">-</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{ dato.presentes }}/{{ dato.total_dias }}</td>
+                <td>{{ dato.porcentaje }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Botón volver -->
+<div class="mt-4 text-center">
+    <a href="{% url 'ver_asistencia' %}" class="btn btn-secondary rounded-pill px-4">
+        <i class="bi bi-arrow-left-circle"></i> Volver
+    </a>
+</div>
+
+{% endblock %}
