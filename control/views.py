@@ -15,19 +15,25 @@ from django.http import HttpResponse
 import calendar
 from datetime import date
 
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def registrar_alumno(request):
     if request.method == 'POST':
-        form = AlumnoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_alumnos')
-    else:
-        form = AlumnoForm()
-    return render(request, 'control/registrar_alumno.html', {'form': form})
+        nombre = request.POST['nombre']
+        apellido = request.POST['apellido']
+        Alumno.objects.create(
+            nombre=nombre,
+            apellido=apellido,
+            usuario=request.user  # 🔐 Asignamos el usuario logueado
+        )
+        return redirect('lista_alumnos')
+    return render(request, 'control/registrar_alumno.html')
 
+
+@login_required
 def lista_alumnos(request):
-    alumnos = Alumno.objects.all()
+    alumnos = Alumno.objects.filter(usuario=request.user)  # 🔐 Solo los del usuario logueado
     return render(request, 'control/lista_alumnos.html', {'alumnos': alumnos})
 
 def tomar_asistencia(request):
