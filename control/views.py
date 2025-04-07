@@ -13,6 +13,9 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegistroUsuarioForm
 
+from django.contrib.auth.forms import UserCreationForm
+
+
 # VISTA INICIO (protegida)
 @login_required
 def inicio(request):
@@ -201,11 +204,10 @@ def exportar_asistencia_anual(request, anio):
 
 def registro(request):
     if request.method == 'POST':
-        form = RegistroUsuarioForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
-            usuario = form.save()
-            login(request, usuario)  # Loguea automáticamente
-            return redirect('inicio')
+            user = form.save()  # ✅ guarda la contraseña de forma encriptada
+            return redirect('login')
     else:
-        form = RegistroUsuarioForm()
+        form = UserCreationForm()
     return render(request, 'registration/registro.html', {'form': form})
