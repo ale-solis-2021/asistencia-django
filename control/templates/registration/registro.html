@@ -1,0 +1,35 @@
+{% extends "control/base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px;">
+    <h3 class="text-center mb-4">Crear una cuenta</h3>
+
+    <form method="post">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+          {{ field|add_class:"form-control" }}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+      </div>
+    </form>
+
+    <div class="mt-3 text-center">
+      <a href="{% url 'login' %}" class="text-decoration-none">¿Ya tenés una cuenta? Iniciar sesión</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

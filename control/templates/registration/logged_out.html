@@ -1,0 +1,11 @@
+{% extends "control/base.html" %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+  <div class="card shadow-lg p-4 text-center" style="max-width: 500px; width: 100%;">
+    <h3 class="mb-3 text-success">Sesión cerrada</h3>
+    <p class="text-muted">Has cerrado sesión correctamente. ¡Hasta pronto!</p>
+    <a href="{% url 'login' %}" class="btn btn-primary mt-3">Iniciar sesión nuevamente</a>
+  </div>
+</div>
+{% endblock %}

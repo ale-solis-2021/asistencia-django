@@ -13,7 +13,6 @@ urlpatterns = [
     path('descargar/asistencia/<int:mes>/<int:anio>/', views.exportar_asistencia_mensual, name='descargar_asistencia_mensual'),
     path('descargar/asistencia/anual/<int:anio>/', views.exportar_asistencia_anual, name='descargar_asistencia_anual'),
 
-
-
-
-]
+    # 👉 Nueva ruta para registro de usuarios
+    path('registro/', views.registro, name='registro'),
+] 
